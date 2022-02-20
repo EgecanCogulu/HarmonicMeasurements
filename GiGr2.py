@@ -28,7 +28,7 @@ from matplotlib.colors import LogNorm
 #CMAP="seismic"
 CMAP="jet"
 CMAP="RdGy_r"
-
+CMAP="bwr"
 alldata=np.loadtxt(r"C:\Users\Egecan\Desktop\GitHub\HarmonicMeasurements\J_short_tm_Gr_Gi.txt")
 # alldata=np.loadtxt(r"C:\Users\Egecan\Desktop\GitHub\HarmonicMeasurements\J_tm_Gr_Gi.txt")
 
@@ -49,7 +49,7 @@ ticklabelsize=16
 def plotPNG(show=True,save=False):
     fig,ax=plt.subplots(figsize=(5,4))
     plt.pcolormesh(X,Y,GR,vmax=(np.max(GR)),vmin=(np.min(GI)),cmap=CMAP,shading="nearest")
-    plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
+    # plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
     # plt.colorbar()
     ax.set_xticks([0,0.5,1])
     ax.set_yticks([0,0.5,1])
@@ -67,12 +67,13 @@ def plotPNG(show=True,save=False):
         plt.close()
         
     fig,ax=plt.subplots(figsize=(5,4))
-    plt.pcolormesh(X,Y,GI,vmax=(np.max(GR)),vmin=(np.min(GI)),cmap=CMAP,shading="nearest")
+    # plt.pcolormesh(X,Y,GI,vmax=(np.max(GR)),vmin=(np.min(GI)),cmap=CMAP,shading="nearest")
+    plt.pcolormesh(X,Y,np.abs(GI)/np.abs(GR),cmap=CMAP,shading="nearest")
     plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
 
-    # ax.set_ylabel("$t_{m}/t$",size=14)
-    # ax.set_xlabel("$J/t$",size=14)
-    # ax.set_title("$G_{i}$", size=15)
+    ax.set_ylabel("$t_{m}/t$",size=14)
+    ax.set_xlabel("$J/t$",size=14)
+    ax.set_title("$G_{i}$", size=15)
     ax.set_xticks([0,0.5,1])
     ax.set_yticks([0,0.5,1])
     ax.set_xticklabels([0,0.5,1],fontsize=ticklabelsize)
@@ -87,7 +88,7 @@ def plotPNG(show=True,save=False):
 def plotPDF(show=True,save=False):
     fig,ax=plt.subplots(figsize=(5,4))
     im=plt.pcolormesh(X,Y,GR,vmax=(np.max(GR)),vmin=(np.min(GI)),cmap=CMAP,shading="nearest",rasterized=True)
-    # plt.colorbar(im)
+    plt.colorbar(im)
     # ax.set_ylabel("$t_{m}/t$",size=14)
     # ax.set_xlabel("$J/t$",size=14)
     # ax.set_title("$G_{R}$", size=15)
@@ -103,7 +104,7 @@ def plotPDF(show=True,save=False):
     if show==False:
         plt.close()
         
-    plt.colorbar
+    
     fig,ax=plt.subplots(figsize=(5,4))
     im=plt.pcolormesh(X,Y,GI,vmax=(np.max(GR)),vmin=(np.min(GI)),cmap=CMAP,shading="nearest",rasterized=True)
     ax.set_xticks([0,0.5,1])
@@ -118,27 +119,39 @@ def plotPDF(show=True,save=False):
     return(None)   
 
 
-
-
 def ratioPDF():
        
     CMAP="jet"
     
     fig,ax=plt.subplots(figsize=(10,4))
     
-    im1=plt.pcolormesh(X,Y,np.abs(GI)/np.abs(GR),cmap=CMAP,norm=colors.LogNorm(0.1, 10),shading="nearest",rasterized=False)
+    im1=plt.pcolormesh(X,Y,np.abs(GI)/np.abs(GR),cmap=CMAP,norm=colors.LogNorm(0.1, 100),shading="nearest",rasterized=True)
     
-    plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
-
+    #plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
+    plt.colorbar(im1)
     ax.set_xticks([0,0.25,0.5,0.75,1])
     ax.set_yticks([0,0.25,0.5,0.75,1])
     ax.set_xticklabels([0,"",0.5,"",1],fontsize=ticklabelsize)
     ax.set_yticklabels([0,"",0.5,"",1],fontsize=ticklabelsize)
     plt.tight_layout()
 
-    # plt.savefig(r"C:\Users\Egecan\Desktop\GiGrRatio.pdf") 
+    plt.savefig(r"C:\Users\Egecan\Desktop\GiGrRatio.pdf") 
     plt.savefig(r"C:\Users\Egecan\Desktop\GiGrRatio.png",dpi=900) 
 
+def plot1D():
+    fig,ax=plt.subplots(figsize=(6,4))
+    ax.plot(Jt[::100],Gr[0::100],label="g$_{r}$",marker=None,linewidth=3)
+    ax.plot(Jt[::100],Gi[0::100],label="g$_{i}$",marker=None,linewidth=3)
+    plt.legend()
+    # ax.set_xticks([0,0.5,1])
+    # ax.set_yticks([0,0.5,1])
+    # ax.set_xticklabels([0,0.5,1],fontsize=ticklabelsize)
+    # ax.set_yticklabels([0,0.5,1],fontsize=ticklabelsize)
+    ax.set_ylabel("$g_{r,i}$", size=15)
+    ax.set_xlabel("$J/t$",size=14)
+    plt.tight_layout()
+    plt.savefig(r"C:\Users\Egecan\Desktop\GivsGr.pdf")
+    plt.show()
 # fig,[ax1,ax2]=plt.subplots(2,1)
 # #im1=ax1.pcolormesh(X,Y,GI,vmax=(np.max(GR)),vmin=-1*(np.max(GR)),cmap=CMAP,shading="nearest")
 # #im2=ax2.pcolormesh(X,Y,GR,vmax=(np.max(GR)),vmin=-1*(np.max(GR)),cmap=CMAP,shading="nearest")

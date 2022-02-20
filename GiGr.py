@@ -109,7 +109,7 @@ CMAP="jet"
 
 fig,ax=plt.subplots(figsize=(7,3.5))
 
-# im1=plt.pcolormesh(X,Y,np.abs(GI)/np.abs(GR),cmap=CMAP,norm=colors.LogNorm(0.1, 10),shading="nearest")
+im1=plt.pcolormesh(X,Y,np.abs(GI)/np.abs(GR),cmap=CMAP,norm=colors.LogNorm(0.1, 1000),shading="nearest")
 
 plt.colorbar(im1,fraction=0.046, pad=0.04)
 plt.contour(X,Y,np.abs(GI)/np.abs(GR),antialiased=True,linestyles=["dashed"],linewitdhs=[1],levels=[1],colors=["black"],alpha=0.9)
