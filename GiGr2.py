@@ -140,8 +140,8 @@ def ratioPDF():
 
 def plot1D():
     fig,ax=plt.subplots(figsize=(6,4))
-    ax.plot(Jt[::100],Gr[0::100],label="g$_{r}$",marker=None,linewidth=3)
-    ax.plot(Jt[::100],Gi[0::100],label="g$_{i}$",marker=None,linewidth=3)
+    ax.plot(Jt[24:20000:100],Gr[24:20000:100],label="g$_{r}$",marker=None,linewidth=3)
+    ax.plot(Jt[24:20000:100],Gi[24:20000:100],label="g$_{i}$",marker=None,linewidth=3)
     plt.legend()
     # ax.set_xticks([0,0.5,1])
     # ax.set_yticks([0,0.5,1])
